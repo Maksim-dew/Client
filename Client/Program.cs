@@ -10,10 +10,8 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            File.WriteAllText(@"C:\Users\maksi\source\repos\Client\FileLog.log", string.Empty);
-
-            Log.Logger = new LoggerConfiguration().WriteTo.File(@"C:\Users\maksi\source\repos\Client\FileLog.log").CreateLogger();
-
+            
+            Log.Logger = new LoggerConfiguration().WriteTo.File("FileLog.log").CreateLogger();
 
             Log.Information("The is a sample information");
 
