@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net.Sockets;
-using System.Net;
+using Serilog;
+using System.IO;
 
 namespace Client
 {
@@ -12,6 +10,13 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            File.WriteAllText(@"C:\Users\maksi\source\repos\Client\FileLog.log", string.Empty);
+
+            Log.Logger = new LoggerConfiguration().WriteTo.File(@"C:\Users\maksi\source\repos\Client\FileLog.log").CreateLogger();
+
+
+            Log.Information("The is a sample information");
+
             try
             {
                 TcpClient client = new TcpClient("127.0.0.1", 7000);
@@ -34,11 +39,17 @@ namespace Client
                 client.Close();
                 Console.WriteLine("Client closed");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(ex.Message);
+
+                Log.Error(ex, "Some error occurred");
             }
             Console.ReadLine();
+
+            Log.CloseAndFlush();
+            Console.WriteLine("Completed");
+            Console.ReadKey();
         }
     }
 }
